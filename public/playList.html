@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Playlist Maker</title>
+  </head>
+
+  <body>
+    <nav class="nav">
+        <div class="container">
+            <h1 class="logo"><a href="index.html">Playlist Maker</a></h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="editor.html">Editor</a></li>
+                <li><a href="playList.html" class="current">My PlayList</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Playlist Maker</h1>
+            <div id="listContainer">
+              <table id="songList">
+                <tr>
+                  <th>Track ID</th>
+                  <th>Song</th>
+                  <th>Artist</th>
+                  <th>Album</th>
+                  <th>URL</th>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <button id="saveList" class="hidden" class="btn">Save Playlist</button>
+              <button id="clearList" class="hidden" class="btn">Clear Playlist</button>
+            <div>
+            <div>
+              <a href="/getList" target="_blank"><button id="getList" class="hidden" class="btn">Get Playlist</button></a>
+            </div>
+
+            <div id="info" class="info"></div>
+        </div>
+
+        <div class="content"></div>
+    </div>
+
+    <script src="playListScript.js"></script>
+  </body>
+</html>

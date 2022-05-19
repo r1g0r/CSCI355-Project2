@@ -23,10 +23,33 @@
     <div class="hero">
         <div class="container">
             <h1>Playlist Maker</h1>
-            <div id="info" class="info">
-              About:
-              <p>This site was made as a project for CSCI-355</p>
+            <div id="info" class="aboutInfo"><u><b>About:</b></u>
+              <p>
+                This site was made as a project for:<br> 
+                Professor Fried's CSCI-355 Class - Spring 2022<br> 
+                by Ralph Granata
+              </p>
             </div>
+            <div id="info" class="aboutInfo"><u><b>How to Use:</b></u>
+              <ol>
+                <li>Open the Editor</li>
+                <li>Search for Albums by Artist</li>
+                <p><i>Click the album image to open</i></p>
+                <li>Add desired songs</li>
+                <p><i>Added songs will appear at the top the editor window for viewing and deleting</i></p>
+                <li>After all desired songs are added, goto "My Playlist"</li>
+                <p><i>Select the row of the song you'd like to move and use the arrow buttons to change its order</i></p>
+                <li>When ready, click "Save" to save the playlist to the server.</li>
+                <p><i>Your playlist is then written to the server's storage file<br>
+                If the playlist is not saved, the browser's local storage will still contain the most recent playlist for future editing</i></p>
+                <li>Click "Get Playlist" to retrieve the <i>last saved</i> playlist from the server </li>
+                <p><i>The playlist is returned in JSON format with complete track info for each song</i></p>
+              </ol>
+            </div>
+        </div>
+
+        <div id="info" class="aboutInfo">
+          <p style="font-weight: bold"><u>Copyright &copy 2022 by R-Net Inc.</u></p>
         </div>
 
         <div class="content"></div>

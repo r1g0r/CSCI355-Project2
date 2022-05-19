@@ -4,6 +4,7 @@ const searchBtn = document.getElementById('searchBtn');
 const searchElem = document.getElementById('search');
 const contentArea = document.querySelector('.content')
 const noteContainer = document.querySelector('.noteContainer');
+const infoArea = document.getElementById("info");
 var lastNum = localStorage.length;
 var data = {};
 
@@ -37,10 +38,13 @@ async function getAlbums() {
   data = await res.json()
   contentArea.innerHTML = ``;
 
-  if(searchElem.value.trim() == "")
+  if(searchElem.value.trim() == ""){
     infoEl.innerHTML = ``;
-
+    infoArea.classList.add("hidden");
+  }
   else{
+    infoArea.classList.remove("hidden");
+    infoArea.classList.add("info");
     infoEl.innerHTML = `Albums found for "${searchElem.value}":`;
     data.results.forEach(item => {
       //console.log(item);
@@ -88,6 +92,9 @@ async function openAlbum(cID){
 }
 
 function addNewSong(i) {
+  addBtn = document.getElementsByClassName("btn");
+  btnIndex = (i - '0');
+  addBtn[btnIndex].classList.add("btnGrayed");
   //console.log(songs);
   const note = document.createElement('div')
   note.classList.add('playList');

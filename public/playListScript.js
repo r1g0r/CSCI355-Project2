@@ -25,40 +25,10 @@ function updateTable() {
     saveButton.classList.remove("hidden");
     saveButton.classList.add("btn");
     saveButton.addEventListener("click", writeData);
-    
     clearButton.classList.remove("hidden");
     clearButton.classList.add("btn");
     clearButton.addEventListener("click", clearList);
 
-    index = undefined;
-    getSelectedRow();
-}
-
-function remakeTable(){
-    listContainer.innerHTML = `
-    <table id="songList">
-        <tr>
-            <th>Track ID</th>
-            <th>Song</th>
-            <th>Artist</th>
-            <th>Album</th>
-            <th>URL</th>
-        </tr>
-    </table>
-    `;
-    Object.keys(localStorage).forEach(function(key){
-        showStorage(key);
-    });
-    pList = document.getElementById("songList");
-    pList.innerHTML += `
-    <tr>
-            <td class="dirButtonBar" colspan=100%>
-            <button class="dirBtn" onclick="upNdown('up');">&#8679;</button>
-            <button class="dirBtn" onclick="upNdown('down');">&#8681;</button>
-            </td>
-    </tr>
-    `;
-    index = undefined;
     getSelectedRow();
 }
 
@@ -78,24 +48,27 @@ function showStorage(i) {
     <td><button class="smallBtn" onclick="deleteRow('${item.trackId}')">X</button></td>
     </tr>
     `;
-
 }
 
 
 function getSelectedRow() {
+    index = undefined;
+    pList = document.getElementById("songList");
+
     for(var i = 1; i < pList.rows.length-1; i++) {
         pList.rows[i].onclick = function() {
             // the first time index is undefined
-            if(typeof index !== "undefined"){
-                pList.rows[index].classList.toggle("selected");
-            }
-            
+            this.classList.add("selected");
+            prev = index;
             index = this.rowIndex;
-            this.classList.toggle("selected");
-            //console.log(pList.rows);
+            if(typeof prev !== "undefined" && typeof index !== "undefined" && prev != index){
+                pList.rows[prev].classList.remove("selected");
+            }
+
         };
     }
 }
+
 
 function upNdown(direction) {
     var rows = pList.rows;
@@ -122,6 +95,7 @@ function upNdown(direction) {
 }
 
 function getList(){
+    index = undefined;
     const options = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -135,15 +109,16 @@ function getList(){
         return data.json();
     }).then(fulldata => {
         //console.log(fulldata[0].trackId);
-        loadListFromServer(fulldata)
+        loadListFromObject(fulldata)
         //console.log(fulldata);
     }).catch(e => {
         console.log(e);
     });
 }
 
-function loadListFromServer(fulldata){
+function loadListFromObject(fulldata){
     localStorage.clear();
+    
     listContainer.innerHTML = `
     <table id="songList">
         <tr>
@@ -169,7 +144,7 @@ function loadListFromServer(fulldata){
         <td><button class="smallBtn" onclick="deleteRow('${item.trackId}')">X</button></td>
         </tr>
         `;
-        localStorage.setItem(fulldata[key].trackId, JSON.stringify(fulldata[key]));
+    localStorage.setItem(fulldata[key].trackId, JSON.stringify(fulldata[key]));
     });
     pList.innerHTML += `
     <tr>
@@ -179,7 +154,6 @@ function loadListFromServer(fulldata){
             </td>
     </tr>
     `;
-    index = undefined;
     getSelectedRow();
 }
 
@@ -187,25 +161,6 @@ function loadListFromServer(fulldata){
 function clearList(){
     localStorage.clear();
     location.reload(true);
-
-    //// Delete Playlist in Server:
-    // const options = {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: "",
-    // };
-    // fetch('/', options)
-    // .then(data => {
-    //     if (!data.ok) {
-    //         throw Error(data.status);
-    //     }
-    //     return data.json();
-    // }).then(fulldata => {
-    //     console.log(fulldata);
-    // }).catch(e => {
-    //     console.log(e);
-    // });
-
 }
 
 
@@ -241,11 +196,31 @@ function writeData(){
     }).catch(e => {
         console.log(e);
     });
-
 }
 
 function deleteRow(trackId){
+    index = undefined;
     localStorage.removeItem(trackId);
-    remakeTable();
+    const rows = document.getElementsByClassName("trackInfo");
+    const myDataObject = [];
+    let j = 0;
+    for(let i = 0; i < rows.length; i++) {
+        if(rows.item(i).childNodes.item(1).innerHTML != trackId){
+        myDataObject[j] =  rows.item(i).childNodes.item(1).innerHTML;
+        j++;
+        }
+    }
+
+    const fullDataObject = {};
+
+    for(let i = 0; i < myDataObject.length; i++){
+        //console.log(myDataObject[i]);
+        fullDataObject[i] = JSON.parse(localStorage.getItem(myDataObject[i]));
+    }
+
+    //location.reload(true);
+    //console.log(fullDataObject);
+    loadListFromObject(fullDataObject);
 }
+
 

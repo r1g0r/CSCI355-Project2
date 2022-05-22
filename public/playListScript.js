@@ -5,6 +5,9 @@ const saveButton = document.getElementById("saveList");
 const clearButton = document.getElementById("clearList");
 const getListButton = document.getElementById("getList");
 getListButton.addEventListener("click", getList)
+saveButton.addEventListener("click", writeData);
+clearButton.addEventListener("click", clearList);
+
 
 if(localStorage.length != 0)
     updateTable();
@@ -21,13 +24,6 @@ function updateTable() {
             </td>
     </tr>
     `;
-
-    saveButton.classList.remove("hidden");
-    saveButton.classList.add("btn");
-    saveButton.addEventListener("click", writeData);
-    clearButton.classList.remove("hidden");
-    clearButton.classList.add("btn");
-    clearButton.addEventListener("click", clearList);
 
     getSelectedRow();
 }
@@ -160,7 +156,7 @@ function loadListFromObject(fulldata){
 
 function clearList(){
     localStorage.clear();
-    location.reload(true);
+    window.location.reload();
 }
 
 
@@ -221,6 +217,12 @@ function deleteRow(trackId){
     //location.reload(true);
     //console.log(fullDataObject);
     loadListFromObject(fullDataObject);
+
+    if(localStorage.length == 0){
+        btnBar = document.querySelector(".dirButtonBar");
+        btnBar.classList.add("hidden");
+    }
+
 }
 
 

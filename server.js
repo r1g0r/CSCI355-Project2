@@ -64,7 +64,7 @@ app.post('/pull', (req, res) => {
 	//res.json(req.body);
 	//console.log(typeof(JSON.stringify(req.body)));
 	res.sendFile(path.join(__dirname, '/output/playList.json'));
-
+	console.log("Last Saved Playlist sent to: " + req.ip);
 });
 
 // app.use(function(req, res, next) {
